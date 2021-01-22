@@ -10,6 +10,20 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v2
+    - name: SSH Keepalive Hack
+      run: |
+        mkdir -p ~/.ssh
+        cat << EOF > ~/.ssh/config
+        Host *
+            ServerAliveInterval 60
+            StrictHostKeyChecking no
+        Host github.com
+            User git
+            Port 22
+            Hostname github.com
+            TCPKeepAlive yes
+            IdentitiesOnly yes
+        EOF
     - name: Start SSH via ngrok
       continue-on-error: true
       timeout-minutes: 350
