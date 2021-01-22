@@ -5,30 +5,22 @@ _SSH into macOS Big Sur running in GitHub Actions_
 ## _Preparation_
 
 1. Fork This Repo
-2. Add your GitHub Access Token as `GH_TOKEN` in the Repository Secrets
-3. To use `ngrok` mode
-   - Add your ngrok authtoken as `NGROK_TOKEN` in the Repository Secrets
-     > You can find this token here: https://dashboard.ngrok.com/auth/your-authtoken
-   - Add a shell login password as `SSH_PASSWORD` in the Repository Secrets
-4. If you want to use tmate
-   - uncomment the `Start SSH via tmate` part in the yaml file and commenting/deleting `Start SSH via ngrok` part
-5. To get Session Link in Telegram [Optional]
-   - Add `TELEGRAM_BOT_TOKEN` and `TELEGRAM_CHAT_ID` in the Repository Secrets
-6. Open the workflow yaml file and edit both `GitHubMail` and `GitHubName` as your own GitHub Account ID
-
-> Default username of macOS VM in ngrok mode is `root`. If you want to change to normal user, after login, run `su - runner` and continue work
+2. Add your ngrok authtoken as `NGROK_TOKEN` in the Repository Secrets
+   > You can find this token here: https://dashboard.ngrok.com/auth/your-authtoken
+3. Add a shell login password as `SSH_PASSWORD` in the Repository Secrets
+4. To get Session Link in Telegram [Optional, but Recommended]
+   - Add  your bot token as `TELEGRAM_BOT_TOKEN` and group chat id as `TELEGRAM_CHAT_ID` in the Repository Secrets
+5. Go to Actions tab, select the workflow name, and run it through `workflow_dispatch` method
 
 ### _That's it!_
 
-#### This workflow will loop after around 350 minutes once it starts.
-> You can also cancel and run anytime utiliing the `workflow_dispatch` method
-
+> Default username of macOS VM in ngrok mode is `root`. If you want to change to normal user, after login, run `su - runner` and continue work
 
 ### _Where To Go Next_
 
 Experiment anything in your own remote _macOS Big Sur_ machine.
 
-What's inside the beast?! Run `system_profiler SPHardwareDataType` inside the session or install `bpytop`
+What's inside the beast?! Run `system_profiler SPHardwareDataType` inside the session or use `pip3 install bpytop && bpytop`
 
 Good Luck.
 
