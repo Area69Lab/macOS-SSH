@@ -1,32 +1,18 @@
 name: MacOS SSH to GitHub Actions
 
 on:
-  push:
-    branches: [ main ]
-    paths-ignore: 'README.md'
   workflow_dispatch:
 
 jobs:
   ssh:
     runs-on: macos-11.0
 
-    env:
-      # Change These If You Are Forking The Repo
-      GitHubMail: "rokibhasansagar2014@outlook.com"
-      GitHubName: "rokibhasansagar"
-
     steps:
-    - name: Set Git Configs & Secrets
-      run: |
-        git config --global user.email ${GitHubMail}
-        git config --global user.name ${GitHubName}
-        git config --global color.ui true
-        git config --global credential.helper store
-        echo "https://${GitHubName}:${{ secrets.GH_TOKEN }}@github.com" > ~/.git-credentials
-    # Either use ngrok method or tmate method
+    - name: Checkout
+      uses: actions/checkout@v2
     - name: Start SSH via ngrok
       continue-on-error: true
-      timeout-minutes: 340
+      timeout-minutes: 350
       uses: P3TERX/ssh2actions@main
       with:
         mode: ngrok
@@ -40,17 +26,3 @@ jobs:
         # Send connection info to Telegram (optional)
         #TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
         #TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
-    #- name: Start SSH via tmate
-    #  uses: P3TERX/ssh2actions@main
-    #  # Send connection info to Telegram (optional)
-    #  env:
-    #    TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
-    #    TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
-    - name: Self Looping
-      run: |
-        git clone https://${GitHubName}:${{ secrets.GH_TOKEN }}@github.com/${GITHUB_REPOSITORY} loop
-        cd loop || exit 1
-        echo $(( RANDOM - ( RANDOM % RANDOM ) )) > looper.txt
-        git add looper.txt
-        git commit -m "Looping at $(date -u +%D-%T%P)"
-        git push -q https://${{ secrets.GH_TOKEN }}@github.com/${GITHUB_REPOSITORY} HEAD:main
