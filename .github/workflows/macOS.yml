@@ -5,7 +5,7 @@ on:
 
 jobs:
   ssh:
-    runs-on: macos-latest
+    runs-on: macos-10.15
 
     steps:
     - name: Checkout
